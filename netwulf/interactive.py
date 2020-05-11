@@ -53,14 +53,14 @@ def prepare_visualization_directory():
     copy_tree(str(src), str(dst))
 
 class NetwulfHTTPServer(http.server.HTTPServer):
-    """Custom netwulf server class adapted from 
+    """Custom netwulf server class adapted from
     https://stackoverflow.com/questions/268629/how-to-stop-basehttpserver-serve-forever-in-a-basehttprequesthandler-subclass """
 
     # The handler will write in this attribute
     posted_network_properties = None
     posted_config = None
     posted_image_base64 = None
- 
+
     end_requested = False
 
     def __init__(self, server_address, handler, subjson, verbose=False):
@@ -183,9 +183,9 @@ def visualize(network,
               ):
     """
     Visualize a network interactively using Ulf Aslak's d3 web app.
-    Saves the network as json, saves the passed config and runs 
+    Saves the network as json, saves the passed config and runs
     a local HTTP server which then runs the web app.
-    
+
     Parameters
     ----------
     network : networkx.Graph or networkx.DiGraph or node-link dictionary
@@ -301,7 +301,8 @@ def visualize(network,
     url = "http://localhost:"+str(port)+"/?data=" + filename + "&config=" + configname
     if is_test:
         url += "&pytest"
-    webbrowser.open(url)
+    print(url)
+    #webbrowser.open(url)
 
     try:
         while not server.end_requested:
@@ -309,7 +310,7 @@ def visualize(network,
         is_keyboard_interrupted = False
     except KeyboardInterrupt:
         is_keyboard_interrupted = True
-    
+
     server.end_requested = True
 
     if verbose:
@@ -324,7 +325,7 @@ def visualize(network,
         print('changing directory back to', cwd)
 
     os.chdir(cwd)
-    
+
     # see whether or not the whole thing was started from a jupyter notebook and if yes,
     # actually re-draw the figure and display it
     env = os.environ
